@@ -1,0 +1,11 @@
+#PBS -l nodes=4:ppn=32,walltime=01:00:00
+module load gcc-4.6.2
+module load mvapich2-1.9a2/gnu-4.6.2
+
+JOB_PATH=/home/$USER/Proj3
+
+cd $JOB_PATH
+
+echo "Node = 4">>results.txt
+
+mpirun ./spart3 10000000000 >>results.txt

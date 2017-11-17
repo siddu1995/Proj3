@@ -1,0 +1,9 @@
+#PBS -l nodes=1:ppn=32,walltime=01:00:00
+module load gcc-4.6.2
+module load mvapich2-1.9a2/gnu-4.6.2
+
+JOB_PATH=/home/sarun002/Proj3
+
+cd $JOB_PATH
+mpirun ./spart2 10000000000
+
