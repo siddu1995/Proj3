@@ -47,11 +47,13 @@ int main (int argc, char *argv[])
       if (prime * prime > low_value)
          first = (prime * prime - low_value)/2;
       else {
+		if(!(low_value%prime)) first = 0;
+		else{
          if ((low_value % prime)%2==0) 
 		first = prime - (low_value % prime)/2;
          else 
 		first = (prime - (low_value % prime))/2;
-      }
+      }}
       for (i = first; i < size; i += prime) marked[i] = 1;
       if (!id) {
          while (marked[++index]);
@@ -65,6 +67,7 @@ int main (int argc, char *argv[])
    MPI_Reduce (&count, &global_count, 1, MPI_INT, MPI_SUM,0, MPI_COMM_WORLD);
    elapsed_time += MPI_Wtime();
    if (!id) {
+global_count++;
       printf ("%llu primes are less than or equal to %llu\n",
          global_count, n);
       printf ("Total elapsed time: %10.6f\n", elapsed_time);
