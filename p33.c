@@ -15,7 +15,7 @@
 int main(int argc, char *argv[])
 {
     double elapsed_time;
-    int id, index,p,count, nodes;
+    int id, index,p,count,nodes;
     unsigned long long int n,k,low_value, high_value, size, proc0_size,i,prime,first;
     char *marked;
     unsigned long long int global_count;
@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
     elapsed_time += MPI_Wtime();
     if (!id) {
         global_count++;
-        printf("Total number of primes: %llu, Total time: %10.6f sec, Total nodes: %d\n",global_count,elapsed_time,nodes);
+        printf("Total number of primes: %llu, Total time: %10.6f sec, number of nodes:%d\n",global_count,elapsed_time,nodes);
 
     }
     MPI_Finalize();
