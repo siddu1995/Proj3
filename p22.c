@@ -14,6 +14,7 @@
 
 int main(int argc, char *argv[])
 {
+    //int *arrA = (int*)calloc(pow(10,10),sizeof(int));
     double elapsed_time;
     int id, index,p,count, nodes;
     unsigned long long int n,k,low_value, high_value, size, proc0_size,i,prime,first;
@@ -21,7 +22,7 @@ int main(int argc, char *argv[])
     unsigned long long int global_count;
     unsigned long long int localLowSieve,localHighSieve,localSizeSieve,localFirstSieve;
     char *localMarked;
-    //declaration of variables
+    //variable declaration
 
     nodes = atoi(argv[2]);
     MPI_Init(&argc, &argv);
