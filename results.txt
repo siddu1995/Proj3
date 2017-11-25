@@ -1,0 +1,7 @@
+PART - 1
+Node = 1
+Total number of primes: 455052511, Total time:  16.455959 sec
+Node = 2
+Total number of primes: 455052511, Total time:  14.631218 sec
+Node = 4
+Total number of primes: 455052511, Total time:   7.409165 sec

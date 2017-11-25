@@ -6,6 +6,4 @@ JOB_PATH=/home/$USER/Proj3
 
 cd $JOB_PATH
 
-echo "Node = 2">>results.txt
-
-mpirun ./p22 10000000000 >>results.txt
+mpirun ./p33 10000000000 2 >>results.txt

@@ -8,8 +8,7 @@ JOB_PATH=/home/$USER/Proj3
 
 cd $JOB_PATH
 
-echo "PART - 3">>results.txt
-echo "Node = 1">>results.txt
+echo "PART - 2">>results.txt
 
-mpirun ./p33 10000000000 >>results.txt
+mpirun ./p22 10000000000 1  >> results.txt
 ~    
