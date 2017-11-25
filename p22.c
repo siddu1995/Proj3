@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 #define MIN(a,b)  ((a)<(b)?(a):(b))
+
+// Defining Block Low, Block High and Block Size
+
 #define BLOCK_LOW(id, p, n) ((id)*(n)/(p))
 #define BLOCK_HIGH(id, p, n) (BLOCK_LOW((id)+1, p,n)-1)
 #define BLOCK_SIZE(id, p, n) (BLOCK_LOW((id)+1,p,n)-BLOCK_LOW((id),p,n))
@@ -11,18 +14,22 @@
 
 int main(int argc, char *argv[])
 {
-    int index,count,id,p;
-    unsigned long long int global_count,i,k,n,high_value,low_value,size,prime,proc0_size,first;
     double elapsed_time;
-    char *marked,*localmarked;
-    unsigned long long int low_proc0,high_proc0,size_proc0,first_proc0;
+    int id, index,p,count, nodes;
+    unsigned long long int n,k,low_value, high_value, size, proc0_size,i,prime,first;
+    char *marked;
+    unsigned long long int global_count;
+    unsigned long long int localLowSieve,localHighSieve,localSizeSieve,localFirstSieve;
+    char *localMarked;
+    //declaration of variables
 
+    nodes = atoi(argv[2]);
     MPI_Init(&argc, &argv);
     MPI_Barrier(MPI_COMM_WORLD);
     elapsed_time = -MPI_Wtime();
     MPI_Comm_rank(MPI_COMM_WORLD, &id);
     MPI_Comm_size(MPI_COMM_WORLD, &p);
-    if (argc != 2) {
+    if (argc != 3) {
           if (!id) printf ("Command line: %s <m>\n", argv[0]);
           MPI_Finalize(); exit(1);
     }
@@ -32,10 +39,10 @@ int main(int argc, char *argv[])
     size = (high_value - low_value) / 2 + 1;
     proc0_size = ((n-2)/(2*p));
 
-    low_proc0 = 3;
-    high_proc0 = (unsigned long long int)sqrt(n);
-    size_proc0 = (high_proc0 - low_proc0) / 2 + 1;
-    localMarked = (char*)malloc(size_proc0);
+    localLowSieve = 3;
+    localHighSieve = (unsigned long long int)sqrt(n);
+    localSizeSieve = (localHighSieve - localLowSieve) / 2 + 1;
+    localMarked = (char*)malloc(localSizeSieve);
 
     if (localMarked == NULL) {
         printf("Cannot allocate memory to local array for seiving primes\n");
@@ -43,7 +50,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    for(k=0;k<size_proc0;k++){
+    for(k=0;k<localSizeSieve;k++){
         localMarked[k] = 0;
     }
 
@@ -91,10 +98,11 @@ int main(int argc, char *argv[])
             while (marked[++index]);
             prime = 2*index + 3;
         }
-
+        //if(p>1)
+            //MPI_Bcast(&prime,  1, MPI_INT, 0, MPI_COMM_WORLD);
         if(id){
-            first_proc0 = (prime * prime - low_proc0)/2;
-            for(k=first_proc0;k<size_proc0;k+=prime){
+            localFirstSieve = (prime * prime - localLowSieve)/2;
+            for(k=localFirstSieve;k<localSizeSieve;k+=prime){
                 localMarked[k] = 1;
             }
             while(localMarked[++index]);
@@ -113,7 +121,9 @@ int main(int argc, char *argv[])
     elapsed_time += MPI_Wtime();
     if (!id) {
         global_count++;
-    printf("Total number of primes: %llu, Total time: %10.6f sec\n",global_count,elapsed_time);     }
+        printf("Total number of primes: %llu, Total time: %10.6f sec, Total nodes: %d\n",global_count,elapsed_time,nodes);
+        // printf ("Total elapsed time: %10.6f\n", elapsed_time);
+    }
     MPI_Finalize();
     return 0;
 }
