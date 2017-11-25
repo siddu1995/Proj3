@@ -8,4 +8,4 @@ cd $JOB_PATH
 
 echo "Node = 4">>results.txt
 
-mpirun ./p3 10000000000 >>results.txt
+mpirun ./p33 10000000000 >>results.txt

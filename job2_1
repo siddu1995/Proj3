@@ -1,0 +1,16 @@
+#!/bin/sh
+#PBS -l nodes=1:ppn=32,walltime=00:05:00
+
+module load gcc-4.6.2
+module load mvapich2-1.9a2/gnu-4.6.2
+
+PBS_O_WORKDIR=/home/sarun002/Proj3
+
+cd $PBS_O_WORKDIR
+
+echo >> results.txt
+echo "PART2 - node 1" >> results.txt
+echo >> results.txt
+
+mpirun ./p22 10000000000 >>results.txt
+

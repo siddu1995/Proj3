@@ -1,4 +1,6 @@
+#!/bin/sh
 #PBS -l nodes=1:ppn=32,walltime=00:05:00
+
 module load gcc-4.6.2
 module load mvapich2-1.9a2/gnu-4.6.2
 
@@ -9,5 +11,5 @@ cd $JOB_PATH
 echo "PART - 3">>results.txt
 echo "Node = 1">>results.txt
 
-mpirun ./p3 10000000000 >>results.txt
+mpirun ./p33 10000000000 >>results.txt
 ~    
